@@ -62,10 +62,17 @@
                                                                     id="address" placeholder="Enter address"
                                                                     path="address" />
                                                             </div>
-                                                            <div class="d-grid">
-                                                                <button type="submit"
-                                                                    class="btn btn-primary">Update</button>
-                                                            </div>
+                                                            <div class="mb-5">
+                                                                <label for="role" class="form-label">Role:</label>
+                                                                <form:select class="form-select" id="role" path="role">
+
+                                                                    <form:options items="${roles}" itemValue="id"
+                                                                        itemLabel="name" />
+                                                                </form:select>
+                                                                <div class="d-grid">
+                                                                    <button type="submit"
+                                                                        class="btn btn-primary">Update</button>
+                                                                </div>
                                                         </form:form>
                                                     </div>
                                                 </div>

@@ -2,9 +2,12 @@ package com.example.spring_boot.controller;
 
 import com.example.spring_boot.domain.User;
 import com.example.spring_boot.repository.UserRepository;
+import com.example.spring_boot.service.RoleService;
 import com.example.spring_boot.service.UserService;
 
 import java.util.List;
+
+import com.example.spring_boot.domain.Role;
 
 import org.springframework.security.access.method.P;
 import org.springframework.stereotype.Controller;
@@ -21,16 +24,27 @@ import org.springframework.web.bind.annotation.PathVariable;
 public class UserController {
 
     private final UserService userService;
+    private final RoleService roleService;
 
     public UserController(
-            UserService userService) {
+            UserService userService, RoleService roleService) {
         this.userService = userService;
-        ;
+        this.roleService = roleService;
     }
 
     @GetMapping("/admin/user/create")
     public String getAdminUserPage(Model model) {
-        model.addAttribute("newUser", new User());
+        User user = new User();
+        List<Role> roles = this.roleService.getAllRoles();
+        for (Role role : roles) {
+            if ("USER".equalsIgnoreCase(role.getName())) {
+                user.setRole(role);
+                break;
+            }
+        }
+        model.addAttribute("roles", roles);
+        model.addAttribute("newUser", user);
+
         return "admin/user/create";
     }
 
@@ -51,8 +65,11 @@ public class UserController {
 
     @RequestMapping("/admin/user/update/{id}")
     public String getAdminUserUpdatePage(Model model, @PathVariable("id") Long id) {
+        List<Role> roles = this.roleService.getAllRoles();
         User user = this.userService.getOneUserById(id);
+
         model.addAttribute("user", user);
+        model.addAttribute("roles", roles);
         return "admin/user/update";
     }
 

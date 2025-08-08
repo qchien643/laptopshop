@@ -38,6 +38,7 @@
                                                     <p><strong>Full Name:</strong> ${user.fullName}</p>
                                                     <p><strong>Phone:</strong> ${user.phone}</p>
                                                     <p><strong>Address:</strong> ${user.address}</p>
+                                                    <p><strong>Address:</strong> ${user.role.name}</p>
                                                 </div>
                                             </div>
                                         </div>
