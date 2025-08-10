@@ -23,6 +23,7 @@ public class User {
     private String phone;
     private String fullName;
     private String address;
+    private String avatar;
 
     @ManyToOne
     @JoinColumn(name = "role_id")
@@ -82,6 +83,14 @@ public class User {
 
     public void setRole(Role role) {
         this.role = role;
+    }
+
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
     }
 
     // toString method

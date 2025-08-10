@@ -11,9 +11,10 @@
                 <meta name="author" content="" />
                 <title>Create User - SB Admin</title>
                 <link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet" />
-                <link href="/css/styles.css" rel="stylesheet" />
+                <link href="/admin/css/styles.css" rel="stylesheet" />
                 <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
             </head>
+
 
             <body class="sb-nav-fixed">
                 <%@ include file="../layout/header.jsp" %>
@@ -33,7 +34,7 @@
                                                     <div class="card-body">
                                                         <h2 class="mb-4 text-center">Create a user</h2>
                                                         <form:form method="post" action="/admin/user"
-                                                            modelAttribute="newUser">
+                                                            modelAttribute="newUser" enctype="multipart/form-data">
                                                             <div class="mb-3">
                                                                 <label for="email" class="form-label">Email:</label>
                                                                 <form:input type="email" class="form-control" id="email"
@@ -65,13 +66,23 @@
                                                                     id="address" placeholder="Enter address"
                                                                     path="address" />
                                                             </div>
-                                                            <div class="mb-4">
+                                                            <div class="mb-5">
                                                                 <label for="role" class="form-label">Role:</label>
                                                                 <form:select class="form-select" id="role" path="role">
 
                                                                     <form:options items="${roles}" itemValue="id"
                                                                         itemLabel="name" />
                                                                 </form:select>
+                                                            </div>
+                                                            <div class="mb-3">
+                                                                <label for="file" class="form-label">Avatar:</label>
+                                                                <input type="file" id="file" name="file"
+                                                                    accept="image/*" class="form-control" />
+                                                            </div>
+                                                            <!-- Thẻ img để preview -->
+                                                            <div class="mb-5">
+                                                                <img id="avatarPreview" src="" alt="Avatar Preview"
+                                                                    style="max-width:200px; display:none; margin-top:10px;" />
                                                             </div>
                                                             <div class="d-grid">
                                                                 <button type="submit"
@@ -88,6 +99,31 @@
                             </div>
                     </div>
                     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+                    <!-- JS Preview Avatar -->
+                    <script>
+                        document.getElementById('file')
+                            .addEventListener('change', function (event) {
+                                const fileInput = event.target;
+                                if (!fileInput.files || !fileInput.files[0]) {
+                                    return;
+                                }
+                                const file = fileInput.files[0];
+                                const previewImg = document.getElementById('avatarPreview');
+
+                                // Chỉ preview nếu là image
+                                if (!file.type.startsWith('image/')) {
+                                    previewImg.style.display = 'none';
+                                    return;
+                                }
+
+                                const reader = new FileReader();
+                                reader.onload = function (e) {
+                                    previewImg.src = e.target.result;
+                                    previewImg.style.display = 'block';
+                                };
+                                reader.readAsDataURL(file);
+                            });
+                    </script>
             </body>
 
             </html>
