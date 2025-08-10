@@ -2,7 +2,10 @@ package com.example.spring_boot.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
+
+import com.example.spring_boot.service.ProductsService;
 
 @Controller
 public class HomePageController {
@@ -24,6 +27,11 @@ public class HomePageController {
 
     @GetMapping("/shopDetail")
     public String getShopDetailPage() {
+        return "homepage/shop_detail/shop-detail";
+    }
+
+    @GetMapping("/products/{id}")
+    public String getProductDetailPage(@PathVariable("id") Long id) {
         return "homepage/shop_detail/shop-detail";
     }
 

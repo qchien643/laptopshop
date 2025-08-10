@@ -43,7 +43,7 @@
                                         <tbody>
                                             <c:forEach var="user" items="${dataUsers}" varStatus="status">
                                                 <tr>
-                                                    <td>${status.index + 1}</td>
+                                                    <td>${user.id}</td>
                                                     <td>
                                                         <img src="/admin/images/avatar/${user.avatar}" alt="Avatar"
                                                             class="rounded-circle"

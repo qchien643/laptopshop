@@ -2,6 +2,7 @@ package com.example.spring_boot.controller;
 
 import com.example.spring_boot.domain.User;
 import com.example.spring_boot.repository.UserRepository;
+import com.example.spring_boot.service.ProductsService;
 import com.example.spring_boot.service.RoleService;
 import com.example.spring_boot.service.UploadService;
 import com.example.spring_boot.service.UserService;
@@ -39,14 +40,16 @@ public class UserController {
     private final RoleService roleService;
     private final UploadService uploadService;
     private final PasswordEncoder passwordEncoder;
+    private final ProductsService productsService;
 
     public UserController(
             UserService userService, RoleService roleService, UploadService uploadService,
-            PasswordEncoder passwordEncoder) {
+            PasswordEncoder passwordEncoder, ProductsService productsService) {
         this.userService = userService;
         this.roleService = roleService;
         this.uploadService = uploadService;
         this.passwordEncoder = passwordEncoder;
+        this.productsService = productsService;
     }
 
     @GetMapping("/admin/user/create")
