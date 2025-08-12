@@ -303,6 +303,10 @@
     color: var(--bs-secondary);
 }
 
+.href-name :hover {
+    cursor: blue;
+}
+
 .fruite .fruite-item {
     height: 100%;
     transition: 0.5s;
