@@ -4,15 +4,20 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import com.example.spring_boot.domain.Role;
 import com.example.spring_boot.domain.User;
+import com.example.spring_boot.domain.dto.RegisterDTO;
+import com.example.spring_boot.repository.RoleRepository;
 import com.example.spring_boot.repository.UserRepository;
 
 @Service
 public class UserService {
     private final UserRepository userRepository;
+    private final RoleRepository roleRepository;
 
-    public UserService(UserRepository userRepository) {
+    public UserService(UserRepository userRepository, RoleRepository roleRepository) {
         this.userRepository = userRepository;
+        this.roleRepository = roleRepository;
     }
 
     public String handleHello() {
@@ -43,5 +48,18 @@ public class UserService {
 
     public void deleteUserById(Long id) {
         this.userRepository.deleteById(id);
+    }
+
+    public User registerDTOtoUser(RegisterDTO registerDTO) {
+        User user = new User();
+        user.setFullName(registerDTO.getFirstName() + registerDTO.getLastName());
+        user.setEmail(registerDTO.getEmail());
+        user.setPassword(registerDTO.getPassword());
+        return user;
+    }
+
+    public Role getRoleByName(String string) {
+        // Assuming you have a method to find a role by its name
+        return this.roleRepository.findByName(string);
     }
 }

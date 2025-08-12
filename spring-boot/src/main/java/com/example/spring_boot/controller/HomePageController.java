@@ -1,28 +1,47 @@
 package com.example.spring_boot.controller;
 
 import org.springframework.security.access.method.P;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.spring_boot.domain.Product;
+import com.example.spring_boot.domain.User;
+import com.example.spring_boot.domain.dto.RegisterDTO;
 import com.example.spring_boot.service.FactoryService;
 import com.example.spring_boot.service.ProductsService;
 import com.example.spring_boot.service.TargetService;
+import com.example.spring_boot.service.UserService;
+
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+
+import jakarta.validation.Valid;
+import org.springframework.validation.BindingResult;
 
 @Controller
 public class HomePageController {
     private final ProductsService productsService;
     private final TargetService targetService;
     private final FactoryService factoryService;
+    private final UserService userService;
+    private final PasswordEncoder passwordEncoder;
 
-    public HomePageController(ProductsService productsService, TargetService targetService,
-            FactoryService factoryService) {
+    public HomePageController(
+            ProductsService productsService,
+            TargetService targetService,
+            FactoryService factoryService,
+            UserService userService,
+            PasswordEncoder passwordEncoder) {
         this.productsService = productsService;
         this.targetService = targetService;
         this.factoryService = factoryService;
+        this.userService = userService;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @GetMapping("/")
@@ -48,16 +67,32 @@ public class HomePageController {
         return "homepage/shop_detail/shop-detail";
     }
 
-    @GetMapping("/shopDetail")
-    public String getShopDetailPage(Model model) {
-
-        model.addAttribute("factories", this.factoryService.getAllFactories());
-        return "homepage/shop_detail/shop-detail";
+    @GetMapping("/register")
+    public String getRegisterPage(Model model) {
+        model.addAttribute("registerUser", new RegisterDTO());
+        return "client/auth/register";
     }
 
-    @GetMapping("/products/{id}")
-    public String getProductDetailPage(@PathVariable("id") Long id) {
-        return "homepage/shop_detail/shop-detail";
+    @PostMapping("/register")
+    public String postRegisterPage(
+            @Valid @ModelAttribute("registerUser") RegisterDTO registerDTO,
+            BindingResult bindingResult,
+            Model model) {
+
+        if (bindingResult.hasErrors()) {
+            return "client/auth/register";
+        }
+
+        User user = this.userService.registerDTOtoUser(registerDTO);
+        user.setPassword(this.passwordEncoder.encode(user.getPassword()));
+        user.setRole(this.userService.getRoleByName("USER"));
+        this.userService.handleSaveUser(user);
+
+        return "redirect:/login";
     }
 
+    @GetMapping("/login")
+    public String getLoginPage(Model model) {
+        return "client/auth/login";
+    }
 }

@@ -9,4 +9,5 @@ import com.example.spring_boot.domain.Role;
 
 @Repository
 public interface RoleRepository extends JpaRepository<Role, Long> {
+    Role findByName(String roleName);
 }
