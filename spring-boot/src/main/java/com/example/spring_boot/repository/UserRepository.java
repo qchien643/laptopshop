@@ -20,6 +20,8 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     List<User> findByEmail(String email);
 
+    User findOneByEmail(String email);
+
     @Transactional
     default User updateOrInsert(User user) {
         return save(user);

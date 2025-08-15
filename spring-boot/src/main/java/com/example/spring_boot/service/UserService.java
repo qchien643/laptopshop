@@ -62,4 +62,8 @@ public class UserService {
         // Assuming you have a method to find a role by its name
         return this.roleRepository.findByName(string);
     }
+
+    public User getUserByEmail(String email) {
+        return this.userRepository.findOneByEmail(email);
+    }
 }

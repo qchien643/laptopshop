@@ -7,6 +7,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
 @Entity
@@ -30,6 +31,9 @@ public class Product {
     @ManyToOne
     @JoinColumn(name = "factory_id")
     private Factory factory;
+
+    @OneToOne(mappedBy = "product")
+    private CartDetail cartDetail;
 
     public Target getTarget() {
         return target;
@@ -101,6 +105,14 @@ public class Product {
 
     public void setPrice(double price) {
         this.price = price;
+    }
+
+    public CartDetail getCartDetail() {
+        return cartDetail;
+    }
+
+    public void setCartDetail(CartDetail cartDetail) {
+        this.cartDetail = cartDetail;
     }
 
 }

@@ -19,6 +19,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
         bean.setViewClass(JstlView.class);
         bean.setPrefix("/WEB-INF/view/");
         bean.setSuffix(".jsp");
+        bean.setOrder(1);
         return bean;
     }
 

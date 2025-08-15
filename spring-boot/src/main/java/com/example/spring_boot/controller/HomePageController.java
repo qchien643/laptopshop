@@ -20,6 +20,8 @@ import com.example.spring_boot.service.UserService;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import org.springframework.validation.BindingResult;
 
@@ -47,6 +49,7 @@ public class HomePageController {
     @GetMapping("/")
     public String getHomePage(Model model) {
         model.addAttribute("products", this.productsService.getAllProducts());
+
         return "homepage/home/home";
     }
 
@@ -92,7 +95,12 @@ public class HomePageController {
     }
 
     @GetMapping("/login")
-    public String getLoginPage(Model model) {
+    public String getLoginPage() {
         return "client/auth/login";
+    }
+
+    @GetMapping("/access-deny")
+    public String getAccessDeniedPage() {
+        return "client/auth/deny";
     }
 }
